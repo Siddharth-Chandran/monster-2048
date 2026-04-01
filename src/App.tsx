@@ -1,15 +1,22 @@
 import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { GameBoard } from './components/GameBoard';
 import { DiscoveryOverlay } from './components/DiscoveryOverlay';
 import { useGameStore } from './store/useGameStore';
 import { RefreshCcw, Trophy } from 'lucide-react';
 import { playMergeSound, initAudio } from './utils/audio';
 import { Analytics } from '@vercel/analytics/react';
+import { HangingMonster } from './components/HangingMonster';
 
 function App() {
   const score = useGameStore(state => state.score);
   const bestScore = useGameStore(state => state.bestScore);
   const resetGame = useGameStore(state => state.resetGame);
+  const tiles = useGameStore(state => state.tiles);
+  const discoveredTiers = useGameStore(state => state.discoveredTiers);
+
+  const bestTier = Math.max(1, ...discoveredTiers);
+  const currentMaxTier = Math.max(1, ...tiles.filter(t => !t.toDelete).map(t => Math.log2(t.value)));
 
   useEffect(() => {
     resetGame();
@@ -48,6 +55,10 @@ function App() {
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-600/20 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600/20 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
 
+      {/* Hanging Monsters (Side Progress) */}
+      <HangingMonster tier={bestTier} label="All-Time Best" position="left" />
+      <HangingMonster tier={currentMaxTier} label="Current Max" position="right" />
+
       <div className="max-w-md w-full z-10 flex flex-col">
         
         <header className="flex justify-between items-center mb-8">
@@ -83,6 +94,17 @@ function App() {
             New Game
           </button>
         </div>
+        
+        {/* Mobile-only Progress Section */}
+        <motion.div 
+           initial={{ opacity: 0, y: -20 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ duration: 0.5, delay: 0.2 }}
+           className="flex lg:hidden items-center justify-between gap-3 mb-6 px-1"
+        >
+           <HangingMonster tier={bestTier} label="All-Time Best" position="left" isCompact />
+           <HangingMonster tier={currentMaxTier} label="Current Max" position="right" isCompact />
+        </motion.div>
 
         <GameBoard />
 
