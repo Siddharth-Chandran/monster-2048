@@ -4,6 +4,7 @@ import { DiscoveryOverlay } from './components/DiscoveryOverlay';
 import { useGameStore } from './store/useGameStore';
 import { RefreshCcw, Trophy } from 'lucide-react';
 import { playMergeSound, initAudio } from './utils/audio';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const score = useGameStore(state => state.score);
@@ -88,6 +89,7 @@ function App() {
       </div>
 
       <DiscoveryOverlay />
+      <Analytics />
     </div>
   );
 }
