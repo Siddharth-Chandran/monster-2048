@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { GameBoard } from './components/GameBoard';
 import { DiscoveryOverlay } from './components/DiscoveryOverlay';
+import { VictoryOverlay } from './components/VictoryOverlay';
 import { useGameStore } from './store/useGameStore';
 import { RefreshCcw, Trophy } from 'lucide-react';
 import { playMergeSound, initAudio } from './utils/audio';
@@ -111,6 +112,7 @@ function App() {
       </div>
 
       <DiscoveryOverlay />
+      <VictoryOverlay />
       <Analytics />
     </div>
   );

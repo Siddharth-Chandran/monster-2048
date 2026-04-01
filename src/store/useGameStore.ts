@@ -16,12 +16,14 @@ interface GameState {
   status: 'playing' | 'over' | 'discovery';
   discoveredTiers: number[];
   discoveredQueue: number[]; // queue of tiers to show overlay for
+  hasWon: boolean;
   moveDirection: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT' | null;
   move: (direction: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') => void;
   spawnTile: () => void;
   resetGame: () => void;
   clearDeleted: () => void;
   resumeFromDiscovery: () => void;
+  setHasWon: (hasWon: boolean) => void;
 }
 
 const getEmptySpots = (grid: (TileData | null)[][]) => {
@@ -52,6 +54,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   status: 'playing',
   discoveredTiers: JSON.parse(localStorage.getItem('monster-merge-discovered') || '[1, 2]'),
   discoveredQueue: [],
+  hasWon: false,
   moveDirection: null,
 
   resetGame: () => {
@@ -73,6 +76,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         score: 0,
         status: 'playing',
         discoveredQueue: [],
+        hasWon: false,
         moveDirection: null
       };
     });
@@ -87,6 +91,8 @@ export const useGameStore = create<GameState>((set, get) => ({
       };
     });
   },
+
+  setHasWon: (hasWon: boolean) => set({ hasWon }),
 
   spawnTile: () => {
     set((state) => {
@@ -220,6 +226,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       }, 150);
       
       const newQueue = [...state.discoveredQueue, ...newDiscoveries];
+      const gameWon = newDiscoveries.includes(11);
 
       // If we merged anything this turn, audio handles playing sound.
       // But we need to call audio from out of store, or just fire a custom event...
@@ -241,6 +248,7 @@ export const useGameStore = create<GameState>((set, get) => ({
         bestScore: newBestScore,
         discoveredTiers: nextDiscovered,
         discoveredQueue: newQueue,
+        hasWon: gameWon || state.hasWon,
         status: newQueue.length > 0 ? 'discovery' : (isGameOver ? 'over' : 'playing'),
         moveDirection: direction
       };
