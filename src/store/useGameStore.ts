@@ -55,7 +55,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   moveDirection: null,
 
   resetGame: () => {
-    set((state) => {
+    set(() => {
       let t1r = Math.floor(Math.random() * 4);
       let t1c = Math.floor(Math.random() * 4);
       let t2r = Math.floor(Math.random() * 4);
