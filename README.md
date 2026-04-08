@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# 🐉 Monster Merge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A vibrant and addictive 2048-style evolution game. Merge cute monsters to discover powerful new species and eventually reach the legendary **Elder-Drake**.
 
-Currently, two official plugins are available:
+![Monster Merge Banner](assets/icon.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Features
 
-## React Compiler
+- **Addictive Gameplay**: Classic 2048 mechanics with a monster evolution twist.
+- **Beautiful Discovery**: Unlock unique monster tiers, each with its own personality and design.
+- **Cross-Platform**: Built as a high-performance web app and wrapped for Android via Capacitor.
+- **Premium Aesthetics**: Dark mode, glassmorphism, and smooth Framer Motion animations.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 Tech Stack
 
-## Expanding the ESLint configuration
+- **Core**: React 19 + TypeScript
+- **Bundler**: Vite
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Animations**: Framer Motion
+- **Native Runtime**: Capacitor 6+ (Android)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📦 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js (via `nvm` recommended)
+- npm or yarn
+- Android Studio (for mobile builds)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Web Development
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+### Android Build & Deployment
+
+The project is already initialized with Capacitor. To build a new Android version:
+
+1. Build the web project:
+   ```bash
+   npm run build
+   ```
+2. Sync the web assets to the Android project:
+   ```bash
+   npx cap sync
+   ```
+3. Open in Android Studio:
+   ```bash
+   npx cap open android
+   ```
+   *From Android Studio, you can run the app on a physical device or emulator.*
+
+### Production Release
+
+To generate a production-signed Android App Bundle (.aab):
+
+```bash
+cd android && ./gradlew bundleRelease
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📜 Development Notes
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **App ID**: `com.monster2048.game`
+- **Asset Generation**: We use `@capacitor/assets` to generate icons and splash screens from source images in the `assets/` folder.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🎮 How to Play
+
+1. **Swipe** up, down, left, or right to move all monsters.
+2. When two monsters of the same tier touch, they **merge** into a higher-tier evolution.
+3. Discover all tiers to win!
+
+---
+
+Built with ❤️ for the Android Play Store.
